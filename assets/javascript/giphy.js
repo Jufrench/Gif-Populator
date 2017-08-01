@@ -4,30 +4,43 @@ var gifPopulate = "";
 var gifUrl = "";
 var userGifInput;
 var randomNumber;
-var imageElement = $("<img>");
+var $imageElement = $("<img>");
 
 // ====== document ready ======
 $(document).ready(function () {
+
+// ====== Swaps still gif for moving gif =======
   $(document).on('click', 'img', function() {
     var source = $(this).attr("src");
     var dataSwap = $(this).attr("data-swap");
     $(this).attr("src", dataSwap);
     $(this).attr("data-swap", source);
   })
-
-  $('#clear-all').click(function () {
+// ====== Clears all Gifs from the page ========
+  $('#clear-all').click(function (event) {
+    event.preventDefault();
     $('img').removeAttr('src');
   })
-
-
-$('#search-btn').click(function () {
-  var userGifInput = $('#user-input').val();
-    if (userGifInput !== "") {
-      console.log('hello!');
+// ====== Grabs data from input field &
+// Populates Gifs from search query ==========
+  $('#search-btn').click(function (event) {
+    event.preventDefault();
+    var userGifInput = $('#user-input').val();
+    console.log(userGifInput);
+    // == Logs input of search bar ==
+    function showSearchedGifs(selection) {
+      if (userGifInput) {
+        topics.push(userGifInput);
+      }
+      console.log(topics);
+      console.log(selection);
+      // == Adds a button for the user search ==
+      $('.buttons').append('<button>' + userGifInput + '</button>');
+      $('#user-input').val('');
     }
-});
-  userGifInput = $('#user-input').val();
-  console.log(userGifInput);
+    showSearchedGifs(userGifInput);
+  });
+
 // =========================================================
 
 // === Makes a button for each string in "topics" array ====
@@ -43,7 +56,7 @@ buttonMaker();
 
  function topicsArrayGifs() {
    for (var i = 0; i < topics.length; i++) {
-     var imageElement = $("<img>");
+     var $imageElement = $("<img>");
    }
  }
 // =========================================================
@@ -68,11 +81,11 @@ function getResults(input) {
     for (var k in response.data) {
       var gifPathStill = response.data[k].images.original_still.url;
       var gifPathMoves = response.data[k].images.original.url;
-      var imageElement = $("<img>");
-      imageElement.attr("src", gifPathStill);
-      imageElement.attr("data-swap", gifPathMoves)
+      var $imageElement = $("<img>");
+      $imageElement.attr("src", gifPathStill);
+      $imageElement.attr("data-swap", gifPathMoves)
       // data-gif="gifPathMoves"
-      $("#empty-gif").append(imageElement);
+      $("#empty-gif").append($imageElement);
 
     }
   });
