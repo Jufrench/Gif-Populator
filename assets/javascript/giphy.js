@@ -6,33 +6,34 @@ var userGifInput;
 var randomNumber;
 var $imageElement = $("<img>");
 
-class AjaxHandler {
 
-  static callAjax(input) {
-    $.ajax('http://api.giphy.com/v1/gifs/search?q=' + input + '&api_key=c4474e5f5426451f818bdcfeeb43beb8&limit=10').done(function(results) {
-      AjaxHandler.populateImages(results);
-    })
-  }
-  
-  static imageMaker(ajaxData) {
-    var gifPathStill = ajaxData.images.original_still.url;
-    var gifPathMoves = ajaxData.images.original.url;
-    var $imageElement = $("<img>");
-    $imageElement.attr("src", gifPathStill);
-    $imageElement.attr("data-swap", gifPathMoves)
-    $("#empty-gif").append($imageElement);
-  }
-
-  static populateImages(results) {
-    for (var i in results.data) {
-      AjaxHandler.imageMaker(results.data[i]);
-    }
-  }
-}
 
 // ====== document ready ======
 $(document).ready(function () {
 
+  class AjaxHandler {
+
+    static callAjax(input) {
+      $.ajax('http://api.giphy.com/v1/gifs/search?q=' + input + '&api_key=c4474e5f5426451f818bdcfeeb43beb8&limit=10').done(function(results) {
+        AjaxHandler.populateImages(results);
+      })
+    }
+
+    static imageMaker(ajaxData) {
+      var gifPathStill = ajaxData.images.original_still.url;
+      var gifPathMoves = ajaxData.images.original.url;
+      var $imageElement = $("<img>");
+      $imageElement.attr("src", gifPathStill);
+      $imageElement.attr("data-swap", gifPathMoves)
+      $("#empty-gif").append($imageElement);
+    }
+
+    static populateImages(results) {
+      for (var i in results.data) {
+        AjaxHandler.imageMaker(results.data[i]);
+      }
+    }
+  }
 
 // ====== Swaps still gif for moving gif =======
   $(document).on('click', 'img', function() {
