@@ -6,8 +6,13 @@ var userGifInput;
 var randomNumber;
 var $imageElement = $("<img>");
 
+class AjaxHandler {
+  static
+}
+
 // ====== document ready ======
 $(document).ready(function () {
+
 
 // ====== Swaps still gif for moving gif =======
   $(document).on('click', 'img', function() {
@@ -29,20 +34,22 @@ $(document).ready(function () {
     console.log(userGifInput);
     // == Logs input of search bar ==
     function showSearchedGifs(selection) {
-      if (userGifInput) {
-        topics.push(userGifInput);
+      if (!topics.includes(selection)) {
+        topics.push(selection);
+        // == Adds a button for the user search ==
+        var $tempBtnLocal = $('.buttons').append('<button>' + userGifInput + '</button>');
+      //  $tempBtnLocal.attr('data-keyword', selection);
+        $('#user-input').val('');
       }
+      $(".buttons button").click(function (selection) {
+        $(this).attr('data-keyword', userGifInput)
+        getResults(userGifInput);
+      });
       console.log(topics);
-      console.log(selection);
-      // == Adds a button for the user search ==
-      $('.buttons').append('<button>' + userGifInput + '</button>');
-      $('#user-input').val('');
     }
     showSearchedGifs(userGifInput);
   });
-
 // =========================================================
-
 // === Makes a button for each string in "topics" array ====
 function buttonMaker() {
   for (var i = 0; i < topics.length; i++) {
@@ -51,22 +58,17 @@ function buttonMaker() {
 }
 buttonMaker();
 // =========================================================
-// TODO
-// When button created is clicked, populate(append) 10 static gifs in html
-
  function topicsArrayGifs() {
    for (var i = 0; i < topics.length; i++) {
      var $imageElement = $("<img>");
    }
  }
 // =========================================================
-
 // ===== Populates Gif from original array upon click ======
 $(".buttons button").click(function () {
   getResults($(this).attr('data-keyword'));
 });
 // =========================================================
-
 // =========================================================
 // TODO
 // Takes user input & create button w/ user's text w/ jQuery, when user hits "Submit"
