@@ -7,7 +7,27 @@ var randomNumber;
 var $imageElement = $("<img>");
 
 class AjaxHandler {
-  static
+
+  static callAjax(input) {
+    $.ajax('http://api.giphy.com/v1/gifs/search?q=' + input + '&api_key=c4474e5f5426451f818bdcfeeb43beb8&limit=10').done(function(results) {
+      AjaxHandler.populateImages(results);
+    })
+  }
+  
+  static imageMaker(ajaxData) {
+    var gifPathStill = ajaxData.images.original_still.url;
+    var gifPathMoves = ajaxData.images.original.url;
+    var $imageElement = $("<img>");
+    $imageElement.attr("src", gifPathStill);
+    $imageElement.attr("data-swap", gifPathMoves)
+    $("#empty-gif").append($imageElement);
+  }
+
+  static populateImages(results) {
+    for (var i in results.data) {
+      AjaxHandler.imageMaker(results.data[i]);
+    }
+  }
 }
 
 // ====== document ready ======
@@ -43,7 +63,7 @@ $(document).ready(function () {
       }
       $(".buttons button").click(function (selection) {
         $(this).attr('data-keyword', userGifInput)
-        getResults(userGifInput);
+        AjaxHandler.callAjax(userGifInput);
       });
       console.log(topics);
     }
@@ -66,7 +86,7 @@ buttonMaker();
 // =========================================================
 // ===== Populates Gif from original array upon click ======
 $(".buttons button").click(function () {
-  getResults($(this).attr('data-keyword'));
+  AjaxHandler.callAjax($(this).attr('data-keyword'));
 });
 // =========================================================
 // =========================================================
@@ -78,19 +98,18 @@ $(".buttons button").click(function () {
 // ======== Call Giphy API =================================
 // Api Key: c4474e5f5426451f818bdcfeeb43beb8
 
-function getResults(input) {
-  $.ajax('http://api.giphy.com/v1/gifs/search?q=' + input + '&api_key=c4474e5f5426451f818bdcfeeb43beb8&limit=10').done(function(response) {
-    for (var k in response.data) {
-      var gifPathStill = response.data[k].images.original_still.url;
-      var gifPathMoves = response.data[k].images.original.url;
-      var $imageElement = $("<img>");
-      $imageElement.attr("src", gifPathStill);
-      $imageElement.attr("data-swap", gifPathMoves)
-      // data-gif="gifPathMoves"
-      $("#empty-gif").append($imageElement);
-
-    }
-  });
-  }
+// function getResults(input) {
+//   $.ajax('http://api.giphy.com/v1/gifs/search?q=' + input + '&api_key=c4474e5f5426451f818bdcfeeb43beb8&limit=10').done(function(response) {
+//     for (var k in response.data) {
+//       var gifPathStill = response.data[k].images.original_still.url;
+//       var gifPathMoves = response.data[k].images.original.url;
+//       var $imageElement = $("<img>");
+//       $imageElement.attr("src", gifPathStill);
+//       $imageElement.attr("data-swap", gifPathMoves)
+//       // data-gif="gifPathMoves"
+//       $("#empty-gif").append($imageElement);
+//        }
+  // });
+  // }
 // =========================================================
 });
