@@ -1,39 +1,34 @@
 var topics = ["winner", "black panther", "chameleon", "red panda", "adventure time", "excited", "knockout"];
-var gifArray = [];
-var gifPopulate = "";
 var gifUrl = "";
 var userGifInput;
-var randomNumber;
-var $imageElement = $("<img>");
+//var $imageElement = $("<img>");
+// ========================================
+class AjaxHandler {
 
+  static callAjax(input) {
+    $.ajax('http://api.giphy.com/v1/gifs/search?q=' + input + '&api_key=c4474e5f5426451f818bdcfeeb43beb8&limit=10').done(function(results) {
+      AjaxHandler.populateImages(results);
+    })
+  }
 
+  static imageMaker(ajaxData) {
+    var gifPathStill = ajaxData.images.original_still.url;
+    var gifPathMoves = ajaxData.images.original.url;
+    var $imageElement = $("<img><p>" + "Rating: " + ajaxData.rating + "</p>");
+    $imageElement.attr("src", gifPathStill);
+    $imageElement.attr("data-swap", gifPathMoves)
+    $("#empty-gif").append($imageElement);
+    console.log(ajaxData.rating);
+  }
 
-// ====== document ready ======
-$(document).ready(function () {
-
-  class AjaxHandler {
-
-    static callAjax(input) {
-      $.ajax('http://api.giphy.com/v1/gifs/search?q=' + input + '&api_key=c4474e5f5426451f818bdcfeeb43beb8&limit=10').done(function(results) {
-        AjaxHandler.populateImages(results);
-      })
-    }
-
-    static imageMaker(ajaxData) {
-      var gifPathStill = ajaxData.images.original_still.url;
-      var gifPathMoves = ajaxData.images.original.url;
-      var $imageElement = $("<img>");
-      $imageElement.attr("src", gifPathStill);
-      $imageElement.attr("data-swap", gifPathMoves)
-      $("#empty-gif").append($imageElement);
-    }
-
-    static populateImages(results) {
-      for (var i in results.data) {
-        AjaxHandler.imageMaker(results.data[i]);
-      }
+  static populateImages(results) {
+    for (var i in results.data) {
+      AjaxHandler.imageMaker(results.data[i]);
     }
   }
+}
+// ====== document ready ======
+$(document).ready(function () {
 
 // ====== Swaps still gif for moving gif =======
   $(document).on('click', 'img', function() {
@@ -51,19 +46,19 @@ $(document).ready(function () {
 // Populates Gifs from search query ==========
   $('#search-btn').click(function (event) {
     event.preventDefault();
-    var userGifInput = $('#user-input').val();
+    var userGifInput = $('#user-input').val().trim();
     console.log(userGifInput);
     // == Logs input of search bar ==
     function showSearchedGifs(selection) {
       if (!topics.includes(selection)) {
         topics.push(selection);
         // == Adds a button for the user search ==
-        var $tempBtnLocal = $('.buttons').append('<button>' + userGifInput + '</button>');
+        $('.buttons').append('<button>' + userGifInput + '</button>');
       //  $tempBtnLocal.attr('data-keyword', selection);
-        $('#user-input').val('');
+      //  $('#user-input').val('');
       }
       $(".buttons button").click(function (selection) {
-        $(this).attr('data-keyword', userGifInput)
+      //  $(this).attr('data-keyword', userGifInput)
         AjaxHandler.callAjax(userGifInput);
       });
       console.log(topics);
@@ -71,7 +66,7 @@ $(document).ready(function () {
     showSearchedGifs(userGifInput);
   });
 // =========================================================
-// === Makes a button for each string in "topics" array ====
+// === Makes a button for each string in original "topics" array ====
 function buttonMaker() {
   for (var i = 0; i < topics.length; i++) {
     $(".buttons").append("<button data-keyword=\"" + topics[i] + "\">" + topics[i] + "</button>");
@@ -79,23 +74,17 @@ function buttonMaker() {
 }
 buttonMaker();
 // =========================================================
- function topicsArrayGifs() {
-   for (var i = 0; i < topics.length; i++) {
-     var $imageElement = $("<img>");
-   }
- }
+ // function topicsArrayGifs() {
+ //   for (var i = 0; i < topics.length; i++) {
+ //     var $imageElement = $("<img>");
+ //   }
+ // }
 // =========================================================
 // ===== Populates Gif from original array upon click ======
 $(".buttons button").click(function () {
   AjaxHandler.callAjax($(this).attr('data-keyword'));
 });
 // =========================================================
-// =========================================================
-// TODO
-// Takes user input & create button w/ user's text w/ jQuery, when user hits "Submit"
-// Make sure to use .trim() to get rid of the spaces on the sides
-// ========================================================
-
 // ======== Call Giphy API =================================
 // Api Key: c4474e5f5426451f818bdcfeeb43beb8
 
