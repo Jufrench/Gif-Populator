@@ -6,7 +6,7 @@ var userGifInput;
 class AjaxHandler {
 
   static callAjax(input) {
-    $.ajax('http://api.giphy.com/v1/gifs/search?q=' + input + '&api_key=c4474e5f5426451f818bdcfeeb43beb8&limit=10').done(function(results) {
+    $.ajax('https://api.giphy.com/v1/gifs/search?q=' + input + '&api_key=c4474e5f5426451f818bdcfeeb43beb8&limit=10').done(function(results) {
       AjaxHandler.populateImages(results);
     })
   }
