@@ -40,7 +40,7 @@ $(document).ready(function () {
 // ====== Clears all Gifs from the page ========
   $('#clear-all').click(function (event) {
     event.preventDefault();
-    $('img').removeAttr('src');
+    $('#empty-gif').empty();
   })
 // ====== Grabs data from input field &
 // Populates Gifs from search query ==========
@@ -48,14 +48,15 @@ $(document).ready(function () {
     event.preventDefault();
     var userGifInput = $('#user-input').val().trim();
     console.log(userGifInput);
-    // == Logs input of search bar ==
+
+    // == Logs input of search bar ========
     function showSearchedGifs(selection) {
       if (!topics.includes(selection)) {
         topics.push(selection);
         // == Adds a button for the user search ==
         $('.buttons').append('<button>' + userGifInput + '</button>');
-      //  $tempBtnLocal.attr('data-keyword', selection);
-      //  $('#user-input').val('');
+       //$(this).attr('data-keyword', selection);
+       $('#user-input').val('');
       }
       $(".buttons button").click(function (selection) {
       //  $(this).attr('data-keyword', userGifInput)
