@@ -56,14 +56,9 @@ $(document).ready(function () {
         topics.push(selection);
         // == Adds a button for the user search ==
         $('.buttons').append('<button data-keyword="' + userGifInput + '">' + userGifInput + '</button>')
-
-       //$(this).attr('data-keyword', selection);
+        $('button').addClass('btn btn-primary');
        $('#user-input').val('');
       }
-      // $(".buttons button").click(function (selection) {
-      // //  $(this).attr('data-keyword', userGifInput)
-      //   AjaxHandler.callAjax(userGifInput);
-      // });
       console.log(topics);
     }
     showSearchedGifs(userGifInput);
@@ -73,7 +68,9 @@ $(document).ready(function () {
 function buttonMaker() {
   for (var i = 0; i < topics.length; i++) {
     $(".buttons").append("<button data-keyword=\"" + topics[i] + "\">" + topics[i] + "</button>");
-
+  }
+  for (var i = 0; i < topics.length; i++) {
+    $('button').addClass('btn btn-primary');
   }
 }
 buttonMaker();
