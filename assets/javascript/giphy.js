@@ -30,6 +30,7 @@ class AjaxHandler {
 // ====== document ready ======
 $(document).ready(function () {
 
+
 // ====== Swaps still gif for moving gif =======
   $(document).on('click', 'img', function() {
     var source = $(this).attr("src");
@@ -54,14 +55,15 @@ $(document).ready(function () {
       if (!topics.includes(selection)) {
         topics.push(selection);
         // == Adds a button for the user search ==
-        $('.buttons').append('<button>' + userGifInput + '</button>');
+        $('.buttons').append('<button data-keyword="' + userGifInput + '">' + userGifInput + '</button>')
+
        //$(this).attr('data-keyword', selection);
        $('#user-input').val('');
       }
-      $(".buttons button").click(function (selection) {
-      //  $(this).attr('data-keyword', userGifInput)
-        AjaxHandler.callAjax(userGifInput);
-      });
+      // $(".buttons button").click(function (selection) {
+      // //  $(this).attr('data-keyword', userGifInput)
+      //   AjaxHandler.callAjax(userGifInput);
+      // });
       console.log(topics);
     }
     showSearchedGifs(userGifInput);
@@ -71,6 +73,7 @@ $(document).ready(function () {
 function buttonMaker() {
   for (var i = 0; i < topics.length; i++) {
     $(".buttons").append("<button data-keyword=\"" + topics[i] + "\">" + topics[i] + "</button>");
+
   }
 }
 buttonMaker();
@@ -82,7 +85,7 @@ buttonMaker();
  // }
 // =========================================================
 // ===== Populates Gif from original array upon click ======
-$(".buttons button").click(function () {
+$(document).on("click", ".buttons button", function() {
   AjaxHandler.callAjax($(this).attr('data-keyword'));
 });
 // =========================================================

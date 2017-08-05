@@ -1,0 +1,30 @@
+
+
+.buttons {
+  margin-top: 10px;
+}
+
+button {
+  margin-right: 10px;
+}
+
+img {
+  margin-top: 10px;
+
+
+}
+
+p {
+  color: black;
+  /*border-color: black;
+  border-style: solid;
+  border-width: 1px;*/
+  background-color: gainsboro;
+  /*rgba(220,220,220,.5);*/
+  width: 75px;
+  position: relative;
+  bottom: 22px;
+  left: 2px;
+
+
+}
