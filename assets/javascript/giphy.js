@@ -55,7 +55,7 @@ $(document).ready(function () {
       if (!topics.includes(selection)) {
         topics.push(selection);
         // == Adds a button for the user search ==
-        $('.buttons').append('<button data-keyword="' + userGifInput + '">' + userGifInput + '</button>')
+        $('.buttons').append('<button data-keyword="' + userGifInput + '">' + userGifInput + '</button>' + '&nbsp;')
         $('button').addClass('btn btn-primary');
        $('#user-input').val('');
       }
@@ -67,7 +67,7 @@ $(document).ready(function () {
 // === Makes a button for each string in original "topics" array ====
 function buttonMaker() {
   for (var i = 0; i < topics.length; i++) {
-    $(".buttons").append("<button data-keyword=\"" + topics[i] + "\">" + topics[i] + "</button>");
+    $(".buttons").append("<button data-keyword=\"" + topics[i] + "\">" + topics[i] + "</button>" + "&nbsp;");
   }
   for (var i = 0; i < topics.length; i++) {
     $('button').addClass('btn btn-primary');
